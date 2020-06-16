@@ -11,6 +11,5 @@ da linea di comando:
 dotnet run "server=<your_bdHost>;user id=<your_bdUser>;password=<your_dbPass>;database=<your_dbName>;" 
 
 ## ToDo  
-* gestione dell'exception? (vedere come gestirla di ritorno ad io-sdk)  
 * leggere i dati di configurazione dal file 'config.json' invece di renderli nella classe  
 * creare almeno un metodo di test per la funzione Repository.GetMessages  

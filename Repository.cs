@@ -8,8 +8,9 @@ namespace io_sdk_csharp_dotnetcore
 {
     public static class Repository
     {
-        public static List<Message> GetMessages(string connectionString) {
-            var Messages = new List<Message>();
+        public static Data GetMessages(string connectionString) {
+            var data = new Data();
+            data.Messages = new List<Message>();
             try 
             {        
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -40,17 +41,20 @@ namespace io_sdk_csharp_dotnetcore
                                 message.Markdown = reader["markdown"].ToString();
                                 message.NoticeNumber = (int) reader["notice_number"];
                                 message.Subject = reader["subject"].ToString();
-                                Messages.Add(message);
+                                
+                                data.Messages.Add(message);
                             }
                         }
                     }                    
                 }
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                throw new ArgumentException("Errore nel recupero dei dati");
+                // throw new ArgumentException("Errore nel recupero dei dati");
+                data.Messages = null;
+                data.Error = e.Message;
             }
-            return Messages;
+            return data;
         }
     }
 }

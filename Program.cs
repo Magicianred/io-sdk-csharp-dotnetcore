@@ -5,7 +5,7 @@ namespace io_sdk_csharp_dotnetcore
 {
     class Program
     {
-        static string Main(string[] args)
+        static void Main(string[] args)
         {
             string jsonString = String.Empty;
 
@@ -13,15 +13,19 @@ namespace io_sdk_csharp_dotnetcore
             string connectionString = (args != null && args.Length > 0) ? args[0] : null;
 
             if (!String.IsNullOrWhiteSpace(connectionString)) {
-                var messages = Repository.GetMessages(connectionString);
+                var data = Repository.GetMessages(connectionString);
 
-                jsonString = JsonSerializer.Serialize(messages);
+                if (String.IsNullOrWhiteSpace(data.Error)) {
+                    jsonString = JsonSerializer.Serialize(data.Messages);
+                } else {
+                    jsonString = JsonSerializer.Serialize(data.Error);
+                }
                 jsonString = "{ \"body\": { \"data\": "+ jsonString +" } } ";
                 
             } else {
                 jsonString = Config.getJson();
             }
-            return jsonString;
+            Console.WriteLine(jsonString);
         }
     }
 }
